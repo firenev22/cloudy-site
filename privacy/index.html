@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cloudy Privacy Policy</title>
+<meta name="description" content="What Cloudy stores, where it stays, and the services it contacts.">
+<link rel="icon" href="../assets/cloudy-server.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&display=swap">
+<link rel="stylesheet" href="../style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(-8 11.925 12.2375)"><path d="M6.5,19.5A4.5,4.5 0,0 1,5.9 10.6,6 6,0 0,1 17.5,8.9 4.3,4.3 0,0 1,17.1 17.5z"/></g></svg>
+      Cloudy
+    </a>
+    <nav><a href="../">Home</a></nav>
+  </header>
+
+  <main class="doc">
+    <h1>Privacy Policy</h1>
+    <p class="meta">Effective [date] · Published by [developer name] · <a href="mailto:[contact email]">[contact email]</a><br>
+    Applies to Cloudy (Music, Theatre and the TV app), Cloudy Server and Cloudy Server Pro on Android, and Cloudy for Windows.</p>
+
+    <div class="summary">
+      <p><strong>The short version.</strong> Cloudy plays your own music and videos from a server you run yourself, on your own phone or PC. We don't run any servers that your library, your viewing history or your account passes through. We have no accounts, no analytics and no advertising. Your data stays on your devices unless you turn on a feature that connects to one of the services listed below.</p>
+    </div>
+
+    <h2>What Cloudy stores, and where</h2>
+    <p>Everything below is stored <strong>only on your own devices</strong>: the device running Cloudy Server, and the devices you pair with it. We never receive any of it.</p>
+    <div class="table"><table>
+      <thead><tr><th>Data</th><th>Where it lives</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td>Your library index: file names, folders, durations, tags, artwork, descriptions</td><td>The server device</td><td>To browse and play your media</td></tr>
+        <tr><td>Profiles: names, optional photos, colours, optional passwords</td><td>The server device. Passwords are stored only as salted PBKDF2 hashes, never in plain text.</td><td>So each person in your household has their own history and settings</td></tr>
+        <tr><td>Playback history, resume positions, likes, playlists</td><td>The server device</td><td>To resume and personalise playback</td></tr>
+        <tr><td>Paired devices</td><td>The device name and a revocable access token on the server; the token on each paired device</td><td>So only devices you invited can reach your library</td></tr>
+        <tr><td>Downloads for offline playback</td><td>The device that downloaded them</td><td>To play without a connection</td></tr>
+        <tr><td>Uploaded files</td><td>The server device, in your library folders</td><td>Because you chose to upload them</td></tr>
+        <tr><td>Crash reports</td><td>The server device only</td><td>To show you what went wrong. They are never sent to us.</td></tr>
+      </tbody>
+    </table></div>
+    <p>Deleting the app, or clearing its storage, removes all of this from that device. An admin can revoke any paired device from the server at any time.</p>
+
+    <h2>Permissions Cloudy asks for</h2>
+    <ul>
+      <li><strong>Music, video and image access:</strong> to find and serve your media, and the posters stored next to it.</li>
+      <li><strong>Folder access</strong> (the folders you choose): to read, organise, convert and delete files in your library when you ask it to.</li>
+      <li><strong>Notifications:</strong> to show playback controls and that the server is running.</li>
+      <li><strong>Network access:</strong> so your devices can reach your server.</li>
+      <li><strong>Running in the background:</strong> so the server keeps serving while the screen is off.</li>
+    </ul>
+
+    <h2>Services Cloudy contacts</h2>
+    <p>Cloudy connects to the services below only for the purpose shown. When it does, those services receive your device's IP address and the request itself, and their own privacy policies apply.</p>
+    <div class="table"><table>
+      <thead><tr><th>Service</th><th>When</th><th>What is sent</th></tr></thead>
+      <tbody>
+        <tr><td>TVmaze</td><td>When the server looks up TV shows</td><td>Show names and episode numbers from your library</td></tr>
+        <tr><td>MusicBrainz</td><td>When the server looks up music details</td><td>Artist and album names</td></tr>
+        <tr><td>The Movie Database (TMDB)</td><td>Only if you add your own TMDB key</td><td>Film and show names</td></tr>
+        <tr><td>OpenSubtitles</td><td>Only if you add your own OpenSubtitles key and search for subtitles</td><td>The film or episode title, and your key</td></tr>
+        <tr><td>Tailscale</td><td>Only if you set up remote access with your own Tailscale key</td><td>What Tailscale needs to connect your devices. Cloudy turns off Tailscale's own logging, and your media travels encrypted, directly between your devices where possible.</td></tr>
+        <tr><td>Cloudflare</td><td>Only while you use a temporary invite or a web share</td><td>The traffic of that share, which passes through Cloudflare's network encrypted</td></tr>
+        <tr><td>Google Play services code scanner</td><td>When you scan a pairing code with the camera</td><td>The image is processed on your device. Google may collect diagnostic and usage information about the scanner, under Google's privacy policy.</td></tr>
+        <tr><td>Google Play Billing</td><td>Only when you buy or restore Cloudy Server Pro</td><td>Purchase details, handled by Google. We receive confirmation of the purchase, never your payment details.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Sharing</h2>
+    <p>We don't sell, rent or share personal data, because we don't collect it. Web shares you create are links to specific items: anyone with the link can open that item until the share expires or you delete it, so only send one to people you mean to.</p>
+
+    <h2>Children</h2>
+    <p>Cloudy is not directed at children under 13, and we don't knowingly collect data from anyone, children included.</p>
+
+    <h2>Security</h2>
+    <p>Every request to your server needs a token issued at pairing, and tokens can be revoked individually. Remote access through Tailscale or Cloudflare is encrypted. Cloudy never opens your server to the internet unless you turn on remote access or a web share.</p>
+
+    <h2>Changes</h2>
+    <p>If this policy changes, we'll update the effective date above and note the change in the app's release notes.</p>
+
+    <h2>Contact</h2>
+    <p>Questions about privacy: <a href="mailto:[contact email]">[contact email]</a></p>
+  </main>
+
+  <footer>
+    <span>Cloudy · [developer name]</span>
+    <span><a href="../">Home</a></span>
+  </footer>
+</div>
+</body>
+</html>
