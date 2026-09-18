@@ -1,5 +1,7 @@
-// The wordmark takes one of the app colours while you point at it, and goes
-// back to white when you leave.
+// The name and the cloud beside it take one of the app colours while you
+// point at them, and go back to white when you leave. The colour is set on
+// the whole brand and the cloud is filled with currentColor, so the two
+// always agree.
 //
 // Random rather than stepping, but never the colour it just had: a true random
 // pick repeats about one time in five, and a repeat reads as the effect having
@@ -13,7 +15,7 @@
     '#f6c85a', // Pro
     '#63c0ff', // Photos, when there is one
   ];
-  var word = document.querySelector('.wordmark');
+  var word = document.querySelector('.brand');
   if (!word) return;
 
   var last = -1;
