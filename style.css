@@ -54,6 +54,13 @@ header.top {
   letter-spacing: -0.3px;
 }
 .brand svg { width: 30px; height: 30px; fill: var(--text); }
+
+/* The name takes a different app's colour on every hover; brand.js does the
+   stepping, this makes the change a fade rather than a jump. */
+.wordmark {
+  transition: color .28s ease;
+  color: var(--server);
+}
 .top nav { display: flex; gap: 20px; font-size: 15px; }
 .top nav a { color: var(--dim); text-decoration: none; }
 .top nav a:hover { color: var(--text); }
