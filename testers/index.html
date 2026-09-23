@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Testing Cloudy</title>
+<meta name="description" content="For Cloudy's closed testers: setting up the server, joining from your phones, what to try and how to report problems.">
+<meta name="robots" content="noindex">
+<link rel="icon" href="../assets/cloudy-crown.svg" type="image/svg+xml">
+<link rel="icon" href="../assets/cloudy-crown-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="../assets/cloudy-crown-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;700;800&family=JetBrains+Mono:wght@600&display=swap">
+<link rel="stylesheet" href="../style.css">
+<style>
+  /* This page only. Colors, fonts, header and footer come from ../style.css. */
+  main.guide { max-width: 720px; padding-block: 8px 24px; }
+  a:focus-visible, button:focus-visible, input:focus-visible + span {
+    outline: 2px solid var(--server); outline-offset: 3px; border-radius: 4px;
+  }
+
+
+  h1 { font-size: clamp(34px, 6.4vw, 52px); line-height: 1.05; letter-spacing: -1.4px; font-weight: 800; margin: 28px 0 14px; text-wrap: balance; max-width: 16ch; }
+  .lede { color: var(--dim); font-size: 19px; margin: 0 0 8px; max-width: 58ch; }
+  h2 { font-size: 26px; letter-spacing: -0.5px; line-height: 1.2; margin: 56px 0 10px; text-wrap: balance; }
+  h3 { font-size: 18px; margin: 0 0 4px; letter-spacing: -0.2px; }
+  p { margin: 0 0 12px; }
+  .dim { color: var(--dim); }
+  .eyebrow { font-size: 12px; font-weight: 700; letter-spacing: 1.4px; text-transform: uppercase; color: var(--dim); margin: 0 0 6px; }
+
+  /* The two roles. */
+  .roles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 26px; }
+  .role { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; display: grid; gap: 10px; align-content: start; }
+  .role .icons { display: flex; gap: 8px; }
+  .role img { width: 48px; height: 48px; border-radius: 12px; }
+  .role p { margin: 0; color: var(--dim); font-size: 15px; }
+  .role.server h3 { color: var(--server); }
+  .role.player h3 { color: var(--music); }
+
+  /* Steps: a real sequence, so numbered. */
+  ol.steps { list-style: none; counter-reset: step; padding: 0; margin: 18px 0 0; display: grid; gap: 14px; }
+  ol.steps > li { counter-increment: step; display: grid; grid-template-columns: 36px 1fr; gap: 14px; align-items: start; }
+  ol.steps > li::before {
+    content: counter(step);
+    width: 36px; height: 36px; border-radius: 50%;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 15px; font-variant-numeric: tabular-nums;
+    background: var(--surface-2); border: 1px solid var(--border);
+  }
+  ol.server > li::before { color: var(--server); }
+  ol.player > li::before { color: var(--music); }
+  ol.steps p { margin: 4px 0 0; color: var(--dim); font-size: 16px; }
+  ol.steps strong { color: var(--text); }
+  .ui { font-weight: 700; color: var(--text); white-space: nowrap; }
+
+  /* The matching-number moment. */
+  .match { margin-top: 22px; background: var(--surface); border: 1px solid var(--border); border-radius: 22px; padding: 22px; display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; align-items: center; }
+  .phone { background: var(--bg); border: 1px solid var(--border); border-radius: 18px; padding: 16px 14px; text-align: center; display: grid; gap: 6px; min-height: 150px; align-content: center; }
+  .phone .who { font-size: 12px; letter-spacing: 1.2px; text-transform: uppercase; font-weight: 700; }
+  .phone.asking .who { color: var(--music); }
+  .phone.admin .who { color: var(--server); }
+  .phone .msg { font-size: 13px; color: var(--dim); line-height: 1.35; }
+  .digits { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-size: 34px; letter-spacing: 0.18em; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .phone.asking .digits { color: var(--music); }
+  .phone.admin .digits { color: var(--server); }
+  .phone .btns { display: flex; gap: 6px; justify-content: center; margin-top: 4px; }
+  .phone .btns span { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--border); color: var(--dim); }
+  .phone .btns span.go { background: var(--server); color: #0f1117; border-color: var(--server); }
+  .equals { font-size: 26px; font-weight: 800; color: var(--dim); }
+  .match-note { grid-column: 1 / -1; margin: 0; font-size: 15px; color: var(--dim); }
+  .match-note small { display: block; margin-top: 4px; font-size: 13px; }
+
+  /* Checklist of things to try; ticks are remembered on this device only. */
+  .try { list-style: none; padding: 0; margin: 18px 0 0; display: grid; gap: 8px; }
+  .try label { display: grid; grid-template-columns: 24px 1fr; gap: 12px; align-items: start; padding: 12px 14px; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); cursor: pointer; }
+  .try input { position: absolute; opacity: 0; pointer-events: none; }
+  .try .box { width: 22px; height: 22px; margin-top: 2px; border-radius: 7px; border: 2px solid var(--border); display: grid; place-items: center; }
+  .try .box svg { width: 14px; height: 14px; stroke: #0f1117; stroke-width: 3; fill: none; opacity: 0; }
+  .try input:checked + .box { background: var(--server); border-color: var(--server); }
+  .try input:checked + .box svg { opacity: 1; }
+  .try input:checked ~ .text { color: var(--dim); }
+  .try .text strong { display: block; }
+  .try .text span { font-size: 15px; color: var(--dim); }
+  .tag { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-left: 6px; vertical-align: 2px; }
+  .tag.music { color: var(--music); border: 1px solid color-mix(in srgb, var(--music) 50%, transparent); }
+  .tag.theater { color: var(--theater); border: 1px solid color-mix(in srgb, var(--theater) 50%, transparent); }
+  .tag.server { color: var(--server); border: 1px solid color-mix(in srgb, var(--server) 50%, transparent); }
+  .progress { margin-top: 10px; font-size: 14px; color: var(--dim); font-variant-numeric: tabular-nums; }
+
+  /* Reporting. */
+  .report { margin-top: 18px; background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 20px; display: grid; gap: 14px; }
+  .email { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .email code { font-family: "JetBrains Mono", ui-monospace, Consolas, monospace; font-size: 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; user-select: all; overflow-wrap: anywhere; }
+  button { font: inherit; font-size: 15px; font-weight: 700; color: #0f1117; background: var(--server); border: 0; border-radius: 999px; padding: 8px 16px; cursor: pointer; }
+  button:hover { background: #9be8c0; }
+  .report ul { margin: 0; padding-left: 20px; color: var(--dim); font-size: 16px; display: grid; gap: 4px; }
+
+  .notes { display: grid; gap: 14px; margin-top: 16px; }
+  .note { border-left: 3px solid var(--border); padding: 2px 0 2px 16px; }
+  .note p { margin: 0; color: var(--dim); font-size: 16px; }
+
+  .stay { margin-top: 56px; padding: 22px; border-radius: 20px; background: color-mix(in srgb, var(--server) 10%, var(--surface)); border: 1px solid color-mix(in srgb, var(--server) 35%, var(--border)); }
+  .stay h2 { margin: 0 0 8px; font-size: 22px; }
+  .stay p { margin: 0; color: var(--text); }
+
+
+  @media (max-width: 560px) {
+    .roles { grid-template-columns: 1fr; }
+    .match { grid-template-columns: 1fr; }
+    .equals { justify-self: center; line-height: 1; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .try .box, .try .box svg { transition: background .15s ease, opacity .15s ease; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <a class="brand" href="../">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><g transform="rotate(-8 11.925 12.2375)"><path d="M6.5,19.5A4.5,4.5 0,0 1,5.9 10.6,6 6,0 0,1 17.5,8.9 4.3,4.3 0,0 1,17.1 17.5z"/></g></svg>
+      <span class="wordmark">Cloudy</span>
+    </a>
+    <nav><a href="../">Home</a> <a href="../privacy/">Privacy</a></nav>
+  </header>
+
+  <main class="guide">
+
+  <h1>Thanks for testing Cloudy.</h1>
+  <p class="lede">Cloudy plays your own music and films from a phone in your house, on every other phone you own. No account, no subscription, and nothing uploaded anywhere. This page gets you set up in about ten minutes and tells you what we'd like you to try.</p>
+
+  <div class="roles">
+    <div class="role server">
+      <div class="icons"><img src="../assets/cloudy-server.svg" alt=""></div>
+      <h3>Cloudy Server</h3>
+      <p>Goes on <strong>one</strong> Android phone or tablet that stays at home, plugged in. It holds the music and films and serves them to everyone else. An old phone is perfect.</p>
+    </div>
+    <div class="role player">
+      <div class="icons"><img src="../assets/cloudy-music.svg" alt=""><img src="../assets/cloudy-theater.svg" alt=""></div>
+      <h3>Cloudy</h3>
+      <p>Goes on every phone you'll listen and watch on. One install gives you two icons: <strong>Cloudy Music</strong> and <strong>Cloudy Theater</strong>.</p>
+    </div>
+  </div>
+
+  <h2>Before you start</h2>
+  <p class="dim">You'll get two links, one for each app. Open each on your phone, signed in to the Google account you gave us, tap <span class="ui">Become a tester</span>, then follow the link to Google Play and install. It can take a few minutes after joining before Play lets you install.</p>
+  <p class="dim">You need Android 8 or newer. Everything happens on your home Wi-Fi, so keep the phones on the same network.</p>
+
+  <h2>Set up the server</h2>
+  <p class="dim">One person per household does this, on the phone that will stay home.</p>
+  <ol class="steps server">
+    <li><div><strong>Put some music or films on that phone.</strong><p>Anything already in its Music, Movies or Download folders counts. Your own files only, please.</p></div></li>
+    <li><div><strong>Open Cloudy Server and tap <span class="ui">Set it up</span>.</strong><p>Allow access to music, videos and photos when asked. Photos is only for posters kept beside films. Allow notifications too: that's how you'll see people asking to join.</p></div></li>
+    <li><div><strong>Let it look through your files.</strong><p>It starts serving on its own when it's done. The big button on the main screen shows whether it's running, and a notification shows its address.</p></div></li>
+    <li><div><strong>Tap <span class="ui">Allow background</span> on the main screen.</strong><p>Otherwise your phone's battery saver may put the server to sleep. Leave the phone plugged in and it can live in a drawer.</p></div></li>
+  </ol>
+
+  <h2>Join from your other phones</h2>
+  <ol class="steps player">
+    <li><div><strong>Open Cloudy and tap <span class="ui">Skip</span> in the corner</strong><p>or step through the short introduction. You'll land on <span class="ui">Connect to your library</span>, which finds servers on your Wi-Fi by itself.</p></div></li>
+    <li><div><strong>Tap <span class="ui">Ask to join</span> next to your server.</strong><p>Your phone shows a four-digit number and waits.</p></div></li>
+    <li><div><strong>Approve it on the server phone.</strong><p>A notification appears there saying your phone wants to join, with <span class="ui">Approve</span> and <span class="ui">Deny</span>. Approve only if it shows the same number.</p></div></li>
+    <li><div><strong>Pick who you are.</strong><p>Cloudy asks <span class="ui">Who's listening?</span> Tap your name, add yourself with <span class="ui">Someone else</span>, or come in as <span class="ui">Guest</span>. Each person gets their own likes, playlists and place in every film.</p></div></li>
+  </ol>
+
+  <div class="match" role="img" aria-label="The joining phone and the server phone show the same number, 4812.">
+    <div class="phone asking">
+      <div class="who">Your new phone</div>
+      <div class="msg">Waiting for approval</div>
+      <div class="digits">4812</div>
+    </div>
+    <div class="equals" aria-hidden="true">=</div>
+    <div class="phone admin">
+      <div class="who">Server phone</div>
+      <div class="msg">Pixel 8 wants to join.<br>Approve only if it shows 4812.</div>
+      <div class="btns"><span>Deny</span><span class="go">Approve</span></div>
+    </div>
+    <p class="match-note">The numbers are how you know it's your phone asking and not somebody else on the Wi-Fi.
+      <small>Joining this way only works on the same Wi-Fi as the server. Anyone can still use a code instead: on the server, open Settings and tap <span class="ui">Show a pairing code</span>, then <span class="ui">Scan QR code</span> in Cloudy.</small></p>
+  </div>
+
+  <p class="dim" style="margin-top:18px">Whoever set up the server should pick <span class="ui">Me</span> on their own phone. That's the admin profile: it can approve new phones, remove them, and change the server. Rename it to your name from Settings in Cloudy. Once you're the admin, requests from new phones also pop up on your own phone while Cloudy is open.</p>
+
+  <h2>What to try</h2>
+  <p class="dim">Tick things off as you go. The ticks stay on this device only.</p>
+  <ul class="try" id="try">
+    <li><label><input type="checkbox" id="t-music"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Play an album <span class="tag music">Music</span></strong><span>Then lock your phone and control it from the lock screen.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-film"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Watch part of a film, stop, and come back later <span class="tag theater">Theater</span></strong><span>It should pick up where you left off, on any of your phones.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-offline"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Download something, then turn Wi-Fi off</strong><span>It should still play from the Offline tab.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-people"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Add a second person</strong><span>Each person's likes and playlists should stay separate.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-upload"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Upload a song or video from your phone</strong><span>From the Upload tab. It should appear in the library shortly after.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-screen"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Hand a film to another screen</strong><span>With Cloudy open on a second device, choose <span class="ui">Play on another screen</span> from a film's menu.</span></span></label></li>
+    <li><label><input type="checkbox" id="t-days"><span class="box"><svg viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"/></svg></span><span class="text"><strong>Leave the server alone for a few days <span class="tag server">Server</span></strong><span>Then check it still answers. Staying up for days with nobody looking at it is what we most need to know.</span></span></label></li>
+  </ul>
+  <div class="progress" id="progress" aria-live="polite"></div>
+
+  <h2>Telling us what went wrong</h2>
+  <div class="report">
+    <div class="email">
+      <code id="email">CloudyServerDev@gmail.com</code>
+      <button type="button" id="copy">Copy address</button>
+    </div>
+    <p class="dim" style="margin:0">Anything confusing counts, not only crashes. A good report says:</p>
+    <ul>
+      <li>which phone, and which app (Server, Music or Theater)</li>
+      <li>what you tapped just before it went wrong</li>
+      <li>a screenshot, if you can</li>
+    </ul>
+    <p class="dim" style="margin:0">If Cloudy Server crashes, it shows a card on its main screen next time it opens, with a button to send the details. It never sends anything unless you press it.</p>
+  </div>
+
+  <h2>Good to know</h2>
+  <div class="notes">
+    <div class="note"><h3>Away from home</h3><p>Cloudy works on your home Wi-Fi out of the box. Reaching your library from outside is optional and needs more setup; stick to home for this test unless you're curious.</p></div>
+    <div class="note"><h3>Join requests need an open app</h3><p>The server phone always shows them. An admin's own phone only shows them while Cloudy is open or playing.</p></div>
+    <div class="note"><h3>Android only</h3><p>There's no iPhone app yet.</p></div>
+    <div class="note"><h3>Updates arrive through Play</h3><p>We'll ship fixes during the test. Keep auto-update on, or check Play now and then.</p></div>
+  </div>
+
+  <div class="stay">
+    <h2>Please stay in for 14 days</h2>
+    <p>Google needs 12 testers to stay opted in for 14 days in a row before Cloudy can go public. Leaving the test, or uninstalling, resets that count, so please keep both apps installed even if you only open them now and then.</p>
+  </div>
+  </main>
+
+  <footer>
+    <span>Cloudy · <a href="mailto:CloudyServerDev@gmail.com">CloudyServerDev@gmail.com</a></span>
+    <span><a href="../">Home</a></span>
+  </footer>
+</div>
+<script>
+  (function () {
+    var boxes = Array.prototype.slice.call(document.querySelectorAll('#try input'));
+    var progress = document.getElementById('progress');
+    var KEY = 'cloudy-tester-ticks';
+    var saved = {};
+    try { saved = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { saved = {}; }
+    function update() {
+      var done = boxes.filter(function (b) { return b.checked; }).length;
+      progress.textContent = done === boxes.length
+        ? 'All ' + done + ' tried. Thank you!'
+        : done + ' of ' + boxes.length + ' tried';
+    }
+    boxes.forEach(function (b) {
+      b.checked = !!saved[b.id];
+      b.addEventListener('change', function () {
+        saved[b.id] = b.checked;
+        try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch (e) {}
+        update();
+      });
+    });
+    update();
+
+    var copy = document.getElementById('copy');
+    var email = document.getElementById('email');
+    copy.addEventListener('click', function () {
+      var text = email.textContent;
+      function selectIt() {
+        var r = document.createRange(); r.selectNodeContents(email);
+        var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
+        copy.textContent = 'Selected, press copy';
+      }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(text).then(function () {
+          copy.textContent = 'Copied';
+          setTimeout(function () { copy.textContent = 'Copy address'; }, 2000);
+        }, selectIt);
+      } else { selectIt(); }
+    });
+  })();
+</script>
+<script src="../brand.js"></script>
+</body>
+</html>

@@ -10,7 +10,7 @@
   --dim: #9aa3b8;
   --server: #6fd9a3;
   --music: #a77ef0;
-  --theatre: #ff6f84;
+  --theater: #ff6f84;
   --gold: #f6c85a;
   color-scheme: dark;
 }
@@ -53,11 +53,11 @@ header.top {
   font-size: 20px;
   letter-spacing: -0.3px;
 }
-/* currentColor, so the cloud takes whatever colour the name has. */
+/* currentColor, so the cloud takes whatever color the name has. */
 .brand svg { width: 30px; height: 30px; fill: currentColor; }
 
-/* White at rest. brand.js paints an app colour on the brand while the pointer
-   is on it and clears the inline colour on the way out, which lands back
+/* White at rest. brand.js paints an app color on the brand while the pointer
+   is on it and clears the inline color on the way out, which lands back
    here; the transition makes both directions a fade rather than a jump. */
 .brand {
   transition: color .28s ease;
