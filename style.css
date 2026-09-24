@@ -97,7 +97,7 @@ header.top {
   font-size: 19px;
 }
 
-/* Two columns, so four apps make two even rows rather than three and one. */
+/* Two columns: the two servers side by side, and Cloudy across the row below. */
 .apps {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -114,6 +114,9 @@ header.top {
   gap: 4px 16px;
   align-items: start;
 }
+/* Cloudy is one app with both halves in it, so it takes a whole row rather
+   than pretending to be two of the four. */
+.app.wide { grid-column: 1 / -1; }
 .app img {
   grid-row: span 2;
   width: 64px;
